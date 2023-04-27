@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 function App() {
   let [title, setTitle] = useState(['글제목1', '글제목2', '글제목3']);
-  let [good, setGood] = useState(0);
+  let [good, setGood] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
 
   return (
@@ -32,39 +32,49 @@ function App() {
         글수정
       </button>
 
-      <div className="list">
-        <h4>
-          {title[0]}
-          &nbsp; <span onClick={() => setGood(1)}>👍</span>
-          {good}
-        </h4>
-        <p>4월 25일</p>
-      </div>
-      <div className="list">
-        <h4>{title[1]}</h4>
-        <p>4월 25일</p>
-      </div>
-      <div className="list">
-        <h4
-          onClick={() => {
-            setModal(!modal);
-          }}
-        >
-          {title[2]}
-        </h4>
-        <p>4월 25일</p>
-      </div>
-      {modal === true ? <Modal /> : null}
+      {title.map(function (a, i) {
+        return (
+          <div className="list" key={i}>
+            <h4
+              onClick={() => {
+                setModal(!modal);
+              }}
+            >
+              {title[i]}
+              &nbsp;{' '}
+              <span
+                onClick={() => {
+                  let copy = [...good];
+                  copy[i] = copy[i] + 1;
+                  setGood(copy);
+                }}
+              >
+                👍
+              </span>
+              {good[i]}
+            </h4>
+            <p>4월 25일</p>
+          </div>
+        );
+      })}
+      {modal === true ? <Modal title={title} setTitle={setTitle} /> : null}
     </div>
   );
 }
 
-function Modal() {
+function Modal(props) {
   return (
     <div className="modal">
-      <h4>제목</h4>
+      <h4>{props.title[0]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
+      <button
+        onClick={() => {
+          props.setTitle(['맛집 추천', '볼거리 추천', '해볼일 추천']);
+        }}
+      >
+        글수정
+      </button>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from 'react';
 function App() {
   let [title, setTitle] = useState(['글제목1', '글제목2', '글제목3']);
   let [good, setGood] = useState(0);
+  let [modal, setModal] = useState(false);
 
   return (
     <div className="App">
@@ -44,9 +45,26 @@ function App() {
         <p>4월 25일</p>
       </div>
       <div className="list">
-        <h4>{title[2]}</h4>
+        <h4
+          onClick={() => {
+            setModal(!modal);
+          }}
+        >
+          {title[2]}
+        </h4>
         <p>4월 25일</p>
       </div>
+      {modal === true ? <Modal /> : null}
+    </div>
+  );
+}
+
+function Modal() {
+  return (
+    <div className="modal">
+      <h4>제목</h4>
+      <p>날짜</p>
+      <p>상세내용</p>
     </div>
   );
 }

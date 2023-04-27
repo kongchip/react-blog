@@ -5,6 +5,7 @@ function App() {
   let [title, setTitle] = useState(['글제목1', '글제목2', '글제목3']);
   let [good, setGood] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
+  let [modalTitle, setModalTitle] = useState(0);
 
   return (
     <div className="App">
@@ -38,6 +39,7 @@ function App() {
             <h4
               onClick={() => {
                 setModal(!modal);
+                setModalTitle(i);
               }}
             >
               {title[i]}
@@ -57,7 +59,7 @@ function App() {
           </div>
         );
       })}
-      {modal === true ? <Modal title={title} setTitle={setTitle} /> : null}
+      {modal === true ? <Modal title={title} setTitle={setTitle} modalTitle={modalTitle} /> : null}
     </div>
   );
 }
@@ -65,7 +67,7 @@ function App() {
 function Modal(props) {
   return (
     <div className="modal">
-      <h4>{props.title[0]}</h4>
+      <h4>{props.title[props.modalTitle]}</h4>
       <p>날짜</p>
       <p>상세내용</p>
       <button

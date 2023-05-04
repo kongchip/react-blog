@@ -6,6 +6,7 @@ function App() {
   let [good, setGood] = useState([0, 0, 0]);
   let [modal, setModal] = useState(false);
   let [modalTitle, setModalTitle] = useState(0);
+  let [newTitle, setNewTitle] = useState('');
 
   return (
     <div className="App">
@@ -45,7 +46,8 @@ function App() {
               {title[i]}
               &nbsp;{' '}
               <span
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   let copy = [...good];
                   copy[i] = copy[i] + 1;
                   setGood(copy);
@@ -56,9 +58,36 @@ function App() {
               {good[i]}
             </h4>
             <p>4월 25일</p>
+            <button
+              onClick={() => {
+                let copy = [...title];
+                copy.splice(i, 1);
+                setTitle(copy);
+              }}
+            >
+              삭제
+            </button>
           </div>
         );
       })}
+
+      <div>
+        <input
+          onChange={(e) => {
+            setNewTitle(e.target.value);
+          }}
+        ></input>
+        <button
+          onClick={() => {
+            let copy = [...title];
+            copy.push(newTitle);
+            setTitle(copy);
+          }}
+        >
+          추가
+        </button>
+      </div>
+
       {modal === true ? <Modal title={title} setTitle={setTitle} modalTitle={modalTitle} /> : null}
     </div>
   );
